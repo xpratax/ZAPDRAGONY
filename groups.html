@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H$KASS - Grupos WhatsApp</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>H$KASS - Grupos WhatsApp</h1>
+<div id="infoDiv"></div>
+<div id="groupList"></div>
+
+<script>
+const currentUser = JSON.parse(localStorage.getItem('HskassUser'));
+if(!currentUser){
+    alert("Faça login primeiro");
+    window.location.href="index.html";
+}
+
+const infoDiv = document.getElementById('infoDiv');
+infoDiv.innerHTML = `Você está logado como <strong>${currentUser.username}</strong> ${currentUser.isMod ? '(Administrador)' : ''}`;
+
+const groupList = document.getElementById('groupList');
+currentUser.groups.forEach(g=>{
+    const btn = document.createElement('button');
+    btn.textContent = g.name;
+    btn.onclick = ()=> window.open(g.link, "_blank");
+    groupList.appendChild(btn);
+});
+</script>
+</body>
+</html>
