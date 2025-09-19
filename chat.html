@@ -1,0 +1,35 @@
+<select id="groupSelect" onchange="openGroupLink()"></select>
+<div id="infoDiv" style="margin:10px;"></div>
+
+<script>
+let currentUser = JSON.parse(localStorage.getItem('HskassUser'));
+if(!currentUser){
+    alert("Faça login primeiro");
+    window.location.href="index.html";
+}
+
+// Carrega grupos
+function loadGroups(){
+    currentUser.groups.forEach(g => {
+        const opt = document.createElement('option');
+        opt.value = g.id;
+        opt.textContent = g.name;
+        document.getElementById('groupSelect').appendChild(opt);
+    });
+}
+loadGroups();
+
+function openGroupLink(){
+    const groupId = parseInt(document.getElementById('groupSelect').value);
+    const group = currentUser.groups.find(g => g.id === groupId);
+    if(group.link && group.link!="#") window.open(group.link, "_blank");
+
+    // Exibe status do usuário
+    const infoDiv = document.getElementById('infoDiv');
+    if(currentUser.isMod){
+        infoDiv.innerHTML = `Você é <strong>Administrador</strong> deste grupo`;
+    } else {
+        infoDiv.innerHTML = `Você é <strong>Membro</strong> do grupo`;
+    }
+}
+</script>
